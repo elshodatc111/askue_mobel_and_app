@@ -8,20 +8,19 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('soato')->default(10000); // Foreign key bo‘lsa, FK qo‘shish mumkin
+            $table->bigInteger('company_id')->default(1);
             $table->string('name');
-            $table->string('addres');
-            $table->enum('position', ['admin', 'muhandis', 'operator', 'mantyor']);
+            $table->enum('position', ['admin', 'drektor', 'currer', 'user']);
             $table->string('phone')->unique();
             $table->enum('status', ['active', 'pending', 'phone'])->default('phone');
             $table->string('code')->nullable();
-            $table->timestamp('code_expires_at')->nullable(); // 🔐 Yangi maydon
+            $table->timestamp('code_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('phone')->primary(); // Email o‘rniga phone ishlatilmoqda
+            $table->string('phone')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });

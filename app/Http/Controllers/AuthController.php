@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 
-class AuthController extends Controller
-{
-    public function login()
-    {
+class AuthController extends Controller{
+    public function login(){
         return view('auth.login');
     }
 
@@ -22,38 +20,28 @@ class AuthController extends Controller
         $request->validate([
             'phone' => 'required|string|min:16|max:16',
         ]);
-
         $phone = $request->phone;
         $user = User::where('phone', $phone)->first();
-
         if (!$user) {
             return back()->with('error', "Avval ro'yxatdan o'ting.");
         }
-
-        if ($user->status === 'pending') {
+        if ($user->position === 'currer' OR $user->position === 'user') {
             return redirect()->route('success')->with('id', $user->id);
         }
-
         $throttleKey = 'login:' . $phone;
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             return back()->withErrors([
                 'phone' => 'Juda ko‘p urinish. Iltimos, keyinroq urinib ko‘ring.',
             ]);
         }
-
-        RateLimiter::hit($throttleKey, 60); // 1 daqiqa blok
-
+        RateLimiter::hit($throttleKey, 60);
         $code = rand(100000, 999999);
         $user->code = Hash::make($code);
         $user->code_expires_at = now()->addMinutes(5);
         $user->save();
-
-        // SMS yuborish (real API bilan integratsiyaga tayyor)
         $this->sendMessage($phone, $code);
-
         $start = substr($phone, 0, 4);
         $end = substr($phone, -4);
-
         return redirect()->route('verify')->with([
             'phone' => $phone,
             'message' => $start . " ... " . $end
@@ -61,16 +49,12 @@ class AuthController extends Controller
     }
 
     public function register(){
-        $soato = Soato::where('soato', '!=', 10000)->get();
-        return view('auth.register', compact('soato'));
+        return view('auth.register');
     }
 
     public function register_store(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
-            'addres' => 'required|string|max:255',
-            'soato' => 'required',
-            'position' => 'required|string|max:255',
             'phone' => 'required|string|min:16|max:16',
         ]);
         $existing = User::where('phone', $request->phone)->first();
@@ -80,9 +64,7 @@ class AuthController extends Controller
         $code = rand(100000, 999999);
         $user = User::create([
             'name' => $request->name,
-            'addres' => $request->addres,
-            'soato' => $request->soato,
-            'position' => $request->position,
+            'position' => 'user',
             'phone' => $request->phone,
             'code' => Hash::make($code),
             'code_expires_at' => now()->addMinutes(5),
@@ -127,16 +109,13 @@ class AuthController extends Controller
         $user->code = null;
         $user->code_expires_at = null;
         if ($user->status === 'phone') {
-            $user->status = 'pending';
+            $user->status = 'active';
             $user->save();
             return redirect()->route('success');
         }
         if ($user->status === 'pending') {
-            $user->save();
             return redirect()->route('success');
         }
-        $user->status = 'active';
-        $user->save();
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
         return redirect()->intended('/');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Soato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
@@ -17,7 +16,6 @@ class AuthApiController extends Controller{
         $phone = $request->phone;
         $user = User::where('phone', $phone)->first();
         if (!$user) {return response()->json(['error' => "Avval ro'yxatdan o'ting."], 404);}
-        if ($user->status === 'pending') {return response()->json(['status' => 'pending', 'user_id' => $user->id,'message' => 'Tasdiqlash mutilmoqda'], 201);}
         $throttleKey = 'login:' . $phone;
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {return response()->json(['error' => 'Juda ko‘p urinish. Keyinroq urinib ko‘ring.'], 429);}
         RateLimiter::hit($throttleKey, 60);
@@ -33,9 +31,6 @@ class AuthApiController extends Controller{
     public function register(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
-            'addres' => 'required|string|max:255',
-            'soato' => 'required',
-            'position' => 'required|string|max:255',
             'phone' => 'required|string|min:16|max:16',
         ]);
         if (User::where('phone', $request->phone)->exists()) {
@@ -44,9 +39,7 @@ class AuthApiController extends Controller{
         $code = rand(100000, 999999);
         $user = User::create([
             'name' => $request->name,
-            'addres' => $request->addres,
-            'soato' => $request->soato,
-            'position' => $request->position,
+            'position' => 'user',
             'phone' => $request->phone,
             'code' => Hash::make($code),
             'code_expires_at' => now()->addMinutes(5),

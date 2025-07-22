@@ -58,45 +58,8 @@
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="addres" class="form-label">Yashash manzilingiz</label>
-                <input type="text" id="addres" name="addres" class="form-control @error('addres') is-invalid @enderror"
-                       value="{{ old('addres') }}" required>
-                @error('addres')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="soato" class="form-label">Faoliyat yuritayotgan tumaningiz</label>
-                <select name="soato" id="soato" class="form-select @error('soato') is-invalid @enderror" required>
-                    <option value="">Tanlang</option>
-                    @foreach($soato as $item)
-                        <option value="{{ $item['soato'] }}" {{ old('soato') == $item['soato'] ? 'selected' : '' }}>
-                            {{ $item['name'] }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('soato')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="position" class="form-label">Lavozimingiz</label>
-                <select name="position" id="position" class="form-select @error('position') is-invalid @enderror" required>
-                    <option value="">Tanlang</option>
-                    <option value="muhandis" {{ old('position') == 'muhandis' ? 'selected' : '' }}>ASKUE Muhandis</option>
-                    <option value="operator" {{ old('position') == 'operator' ? 'selected' : '' }}>ASKUE Operator</option>
-                    <option value="mantyor" {{ old('position') == 'mantyor' ? 'selected' : '' }}>ASKUE Elektromantyor</option>
-                </select>
-                @error('position')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
+            </div> 
+            
             <div class="mb-3">
                 <label for="phone" class="form-label">Telefon raqamingiz</label>
                 <input type="tel" id="phone" name="phone" class="form-control phone @error('phone') is-invalid @enderror"

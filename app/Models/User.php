@@ -9,12 +9,12 @@ use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable{
+
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
+        'company_id',
         'name',
-        'addres',
-        'soato',
         'position',
         'phone',
         'code',
