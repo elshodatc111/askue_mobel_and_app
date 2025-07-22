@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo text-center">
-                    <a href="">ASKUE</a>
+                    <a href="{{ route('home') }}">WaterGO</a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <div class="form-check form-switch fs-6">
@@ -18,32 +18,16 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu list-unstyled">
-                <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <a href="" class="sidebar-link">
+                <li class="sidebar-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <a href="{{ route('home') }}" class="sidebar-link">
                         <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->routeIs([
-                    'child','child_debit','child_end','child_show','child_show_group','child_show_davomad'
-                ]) ? 'active' : '' }}">
-                    <a href="" class="sidebar-link">
-                        <i class="bi bi-emoji-smile-fill"></i> <span>Bolalar</span>
-                    </a>
-                </li>
-                <li class="sidebar-item {{ request()->routeIs([
-                    'child_vakancy','child_vakancy_show','child_vakancy_create'
-                ]) ? 'active' : '' }}">
-                    <a href="" class="sidebar-link">
-                        <i class="bi bi-door-open-fill"></i> <span>Tashriflar</span>
-                    </a>
-                </li>
-                <li class="sidebar-item {{ request()->routeIs([
-                    'groups','groups_arxiv','groups_show_child','child_show_darslar','groups_show_child_update','groups_show_davomad','groups_new','groups_show'
-                ]) ? 'active' : '' }}">
-                    <a href="" class="sidebar-link">
-                        <i class="bi bi-diagram-3-fill"></i> <span>Guruhlar</span>
-                    </a>
-                </li>
+                
+
+                
+
+
 
                 <li class="sidebar-item {{ request()->routeIs('profile') ? 'active' : '' }}">
                     <a href="" class="sidebar-link">
