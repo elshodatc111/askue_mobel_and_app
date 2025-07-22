@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tizimga kirish</title>
+    <title>Ro'yxatdan o'tish</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -25,48 +25,89 @@
     </style>
 </head>
 <body class="d-flex align-items-center justify-content-center vh-100">
-    <div class="card shadow p-4 login-card" style="width: 100%; max-width: 400px;">
-        <h4 class="mb-4 text-center text-primary">Tizimga kirish</h4>
+
+    <div class="card shadow p-4 login-card" style="width: 100%; max-width: 500px;">
+        <h4 class="mb-4 text-center text-primary">Ro'yxatdan o'tish</h4>
+
+        {{-- Session error --}}
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- Validation errors --}}
         @if ($errors->any())
             <div class="alert alert-danger">
-                <ul class="mb-0 mt-2">
+                Iltimos, quyidagi xatoliklarni tuzating:
+                <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
-        <form method="POST" action="">
+
+        <form method="POST" action="{{ route('register_store') }}">
             @csrf
+
             <div class="mb-3">
-                <label for="phone" class="form-label">FIO</label>
-                <input type="text" id="phone" name="phone" class="form-control" required autofocus>
+                <label for="name" class="form-label">F.I.O</label>
+                <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"
+                       value="{{ old('name') }}" required autofocus>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="mb-3">
-                <label for="phone" class="form-label">Yashash manzilingiz</label>
-                <input type="text" id="phone" name="phone" class="form-control" required autofocus>
+                <label for="addres" class="form-label">Yashash manzilingiz</label>
+                <input type="text" id="addres" name="addres" class="form-control @error('addres') is-invalid @enderror"
+                       value="{{ old('addres') }}" required>
+                @error('addres')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="mb-3">
-                <label for="phone" class="form-label">Faoliyat yuritayotgan tumaningiz</label>
-                <select name="" id="" class="form-select" required>
+                <label for="soato" class="form-label">Faoliyat yuritayotgan tumaningiz</label>
+                <select name="soato" id="soato" class="form-select @error('soato') is-invalid @enderror" required>
                     <option value="">Tanlang</option>
+                    @foreach($soato as $item)
+                        <option value="{{ $item['soato'] }}" {{ old('soato') == $item['soato'] ? 'selected' : '' }}>
+                            {{ $item['name'] }}
+                        </option>
+                    @endforeach
                 </select>
+                @error('soato')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="mb-3">
-                <label for="phone" class="form-label">Lavozimingiz</label>
-                <select name="" id="" class="form-select" required>
+                <label for="position" class="form-label">Lavozimingiz</label>
+                <select name="position" id="position" class="form-select @error('position') is-invalid @enderror" required>
                     <option value="">Tanlang</option>
-                    <option value="muhamdis">ASKUE Muhandis</option>
-                    <option value="operator">ASKUE Operator</option>
-                    <option value="mantyor">ASKUE Elektromantyor</option>
+                    <option value="muhandis" {{ old('position') == 'muhandis' ? 'selected' : '' }}>ASKUE Muhandis</option>
+                    <option value="operator" {{ old('position') == 'operator' ? 'selected' : '' }}>ASKUE Operator</option>
+                    <option value="mantyor" {{ old('position') == 'mantyor' ? 'selected' : '' }}>ASKUE Elektromantyor</option>
                 </select>
+                @error('position')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label for="phone" class="form-label">Telefon raqamingiz</label>
-                <input type="tel" id="phone" name="phone" class="form-control phone" value="+998" placeholder="998901234567" required autofocus>
+                <input type="tel" id="phone" name="phone" class="form-control phone @error('phone') is-invalid @enderror"
+                       value="{{ old('phone', '+998') }}" required placeholder="+998 90 123 45 67">
+                @error('phone')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary">Ro'yhatdan o'tish</button>
+                <button type="submit" class="btn btn-primary">Ro'yxatdan o'tish</button>
             </div>
         </form>
 

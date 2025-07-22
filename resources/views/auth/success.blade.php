@@ -37,7 +37,7 @@
             </div>
         @endif
         <div class="text-center bottom-text">
-            Tez orada siz bilan bo'g'anamiz. ID raqamingiz: @if (session('id')) {{ session('id') }} @endif
+            Sizning so'rovingiz tasdiqlanish kutilmoqda. Administrator bilan bog'laning.
         </div>
         <div class="d-grid my-3">
             <a href="{{ route('login') }}" class="btn btn-primary">Orqaga</a>

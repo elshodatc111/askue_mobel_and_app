@@ -51,12 +51,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href=""
+                    <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     class="sidebar-link text-danger">
                         <i class="bi bi-box-arrow-right"></i> <span>Chiqish</span>
                     </a>
-                    <form id="logout-form" action="" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>
