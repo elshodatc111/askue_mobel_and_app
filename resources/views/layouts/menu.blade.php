@@ -23,14 +23,91 @@
                         <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                
+                @if(auth()->user()->position == 'admin')
+                <li class="sidebar-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-buildings"></i> <span>Kompaniyalar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-box-seam"></i> <span>Maxsulotlar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('employees.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people"></i> <span>Hodimlar</span>
+                    </a>
+                </li>                
+                <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people"></i> <span>Foydalanuvchilar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-bag-check"></i> <span>Buyurtmalar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('comments.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-chat-left-text"></i> <span>Izohlar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('statistics.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-bar-chart-line"></i> <span>Statistika</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-file-earmark-text"></i> <span>Hisobotlar</span>
+                    </a>
+                </li>
+                @else
+                <li class="sidebar-item {{ request()->routeIs('employees.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-gear"></i> <span>Sozlamalar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('employees.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-people"></i> <span>Hodimlar</span>
+                    </a>
+                </li>   
+                <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-box-seam"></i> <span>Maxsulotlar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-bag-check"></i> <span>Buyurtmalar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('comments.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-chat-left-text"></i> <span>Izohlar</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('statistics.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-bar-chart-line"></i> <span>Statistika</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-file-earmark-text"></i> <span>Hisobotlar</span>
+                    </a>
+                </li>
 
-                
+                @endif
+
 
 
 
                 <li class="sidebar-item {{ request()->routeIs('profile') ? 'active' : '' }}">
-                    <a href="" class="sidebar-link">
+                    <a href="#" class="sidebar-link">
                         <i class="bi bi-person-circle"></i> <span>Profil</span>
                     </a>
                 </li>
@@ -38,7 +115,7 @@
                     <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     class="sidebar-link text-danger">
-                        <i class="bi bi-box-arrow-right"></i> <span>Chiqish</span>
+                        <i class="bi bi-box-arrow-right"></i>  <span>Chiqish</span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
