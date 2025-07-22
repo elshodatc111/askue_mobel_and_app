@@ -90,7 +90,7 @@ class AuthController extends Controller{
                 'error' => 'Tasdiqlash kodi eskirgan yoki mavjud emas. Qayta urinib ko‘ring.'
             ]);
         }
-        if (!Hash::check(trim($request->code), $user->code)) {
+        if (!Hash::check(trim(str_replace(" ","",$request->code)), $user->code)) {
             return redirect()->route('verify')->withErrors([
                 'phone' => $request->phone,
                 'message' => substr($request->phone, 0, 4) . " ... " . substr($request->phone, -4),

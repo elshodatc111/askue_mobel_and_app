@@ -72,7 +72,7 @@ class AuthApiController extends Controller{
                 'error' => 'Tasdiqlash kodi eskirgan yoki noto‘g‘ri.'
             ], 400);
         }
-        if (!Hash::check(trim($request->code), $user->code)) {
+        if (!Hash::check(trim(str_replace(" ","",$request->code)), $user->code)) {
             return response()->json([
                 'phone' => $request->phone,
                 'error' => 'Tasdiqlash kodi noto‘g‘ri.'
