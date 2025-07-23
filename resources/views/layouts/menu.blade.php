@@ -29,8 +29,8 @@
                         <i class="bi bi-buildings"></i> <span>Kompaniyalar</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
-                    <a href="#" class="sidebar-link">
+                <li class="sidebar-item {{ request()->routeIs('products') ? 'active' : '' }}">
+                    <a href="{{ route('products') }}" class="sidebar-link">
                         <i class="bi bi-box-seam"></i> <span>Maxsulotlar</span>
                     </a>
                 </li>

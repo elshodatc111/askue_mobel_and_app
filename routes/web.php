@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController,AuthController,AdminCompanyController};
+use App\Http\Controllers\{HomeController,AuthController,AdminCompanyController,AdminProductController};
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login/store', [AuthController::class, 'login_store'])->name('login_store');
@@ -17,8 +17,13 @@ Route::middleware(['auth'])->group(function () {
 });
 //  Administrator
 Route::middleware(['auth'])->group(function () {
+    // Companys
     Route::get('/companies', [AdminCompanyController::class, 'index'])->name('companies');
     Route::post('/company/create/store', [AdminCompanyController::class, 'store'])->name('company_create');
+
+    // Products
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products');
+    Route::post('/product/create/store', [AdminProductController::class, 'store'])->name('product_create');
 });
 // Drektor
 

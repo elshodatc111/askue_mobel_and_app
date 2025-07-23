@@ -1,5 +1,5 @@
 @extends('layouts.cdn1')
-@section('title','Kompaniyalar')
+@section('title','Maxsulotlar')
 @section('content')
     <div id="app">
         @extends('layouts.menu')
@@ -11,13 +11,13 @@
                 <div class="page-title">
                     <div class="row align-items-center">
                         <div class="col-12 col-md-6">
-                            <h3>Kompaniyalar</h3>
+                            <h3>Maxsulotlar</h3>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Kompaniyalar</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Maxsulotlar</li>
                                 </ol>
                             </nav>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         <div class="w-100" style="text-align:right">
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#fermaModal">
-                                <i class="bi bi-house-add"></i> Yangi ferma
+                                <i class="bi bi-house-add"></i> Yangi maxsulot
                             </button>
                         </div>
                         <div class="table-responsive mt-2">
@@ -52,25 +52,19 @@
                                     <tr class="table-primary">
                                         <th>1</th>
                                         <th>Firma nomi</th>
-                                        <th>Reyting</th>
-                                        <th>Maxsulotlar soni</th>
-                                        <th>Aktiv Buyurtmalar</th>
-                                        <th>Xizmat narix</th>
-                                        <th>Balans</th>
-                                        <th>To'lov summasi</th>
+                                        <th>Maxsulot nomi</th>
+                                        <th>Maxsulotlar narxi</th>
+                                        <th>O'chirish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($res as $item)
                                         <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            <td><a href="">{{ $item['company_name'] }}</a></td>
-                                            <td>{{ $item['start'] }}</td>
-                                            <td>{{ $item['count_order'] }}</td>
-                                            <td>{{ $item['active_order'] }}(pedding)</td>
+                                            <td>{{ $item['company_name'] }}</td>
+                                            <td>{{ $item['name'] }}</td>
                                             <td>{{ number_format($item['price'], 0, '.', ' ') }}</td>
-                                            <td>{{ number_format($item['balans'], 0, '.', ' ') }}</td>
-                                            <td>{{ number_format($item['paymart'], 0, '.', ' ') }}</td>
+                                            <td><form action="" method="post"><button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button></form></td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -90,70 +84,39 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="fermaModalLabel"><i class="bi bi-house-add"></i> Yangi ferma qo‘shish</h5>
+                    <h5 class="modal-title" id="fermaModalLabel"><i class="bi bi-house-add"></i> Yangi maxsulot qo‘shish</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Yopish"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('company_create') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product_create') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="company_name" class="form-label">Ferma nomi</label>
-                            <input type="text" class="form-control @error('company_name') is-invalid @enderror" id="company_name" name="company_name" value="{{ old('company_name') }}" required>
-                            @error('company_name')
+                            <label for="company_id" class="form-label">Fermani tanlang</label>
+                            <select name="company_id" class="form-select" required>
+                                <option value="">Tanlang</option>
+                                @foreach ($company as $item)
+                                    <option value="{{ $item['id'] }}">{{ $item['company_name'] }}</option>
+                                @endforeach
+                            </select>
+                            @error('company_id')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label">Firma manzili</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address') }}" required>
-                            @error('address')
+                            <label for="name" class="form-label">Maxsulot nomi</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Telefon raqam (Buyurtmachilar bog'lanish uchun)</label>
-                            <input type="text" class="form-control phone @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', '+998') }}" required>
-                            @error('phone')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Hizmat narxi (Bu summa asosiy sahifada ko'rinadigan narx)</label>
+                            <label for="price" class="form-label">Maxsulot narxi</label>
                             <input type="text" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}" required>
                             @error('price')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="paymart" class="form-label">Buyurtma uchun to'lov (Har bir buyurtma uchun to'lov)</label>
-                            <input type="text" class="form-control @error('paymart') is-invalid @enderror" id="paymart" name="paymart" value="{{ old('paymart') }}" required>
-                            @error('paymart')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="logo_image" class="form-label">Firma logotipi uchun rasm (512x512px, jpg, png)</label>
-                            <input type="file" class="form-control @error('logo_image') is-invalid @enderror" id="logo_image" name="logo_image" required>
-                            @error('logo_image')
-                                <div class="invalid-feedback d-block">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Firma haqida (Eslatma uchun saqlanadi)</label>
-                            <textarea name="description" class="form-control @error('description') is-invalid @enderror" required>{{ old('description') }}</textarea>
-                            @error('description')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
