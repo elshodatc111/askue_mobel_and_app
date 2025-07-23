@@ -9,8 +9,8 @@ class Company extends Model{
     use HasFactory;
 
     protected $fillable = [
-        'company_name', 'description', 'logo_image', 'address',
-        'price', 'balans', 'paymart', 'start', 'start_count',
+        'company_name', 'phone', 'description', 'logo_image', 'address',
+        'price', 'balans', 'paymart', 'start', 'start_count','status',
     ];
 
     public function items(){

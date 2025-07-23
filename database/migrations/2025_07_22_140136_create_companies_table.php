@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('company_name');
             $table->text('description')->nullable();
             $table->string('logo_image')->nullable();
+            $table->string('phone');
             $table->string('address')->nullable();
             $table->integer('price')->default(0);
             $table->integer('balans')->default(0);
             $table->boolean('paymart')->default(false);
             $table->integer('start')->default(0);
             $table->integer('start_count')->default(0);
+            $table->string('status');
             $table->timestamps();
         });
     }

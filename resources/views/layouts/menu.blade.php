@@ -24,8 +24,8 @@
                     </a>
                 </li>
                 @if(auth()->user()->position == 'admin')
-                <li class="sidebar-item {{ request()->routeIs('companies.*') ? 'active' : '' }}">
-                    <a href="#" class="sidebar-link">
+                <li class="sidebar-item {{ request()->routeIs('companies') ? 'active' : '' }}">
+                    <a href="{{ route('companies') }}" class="sidebar-link">
                         <i class="bi bi-buildings"></i> <span>Kompaniyalar</span>
                     </a>
                 </li>
@@ -38,7 +38,7 @@
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-people"></i> <span>Hodimlar</span>
                     </a>
-                </li>                
+                </li>
                 <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-people"></i> <span>Foydalanuvchilar</span>
@@ -74,7 +74,7 @@
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-people"></i> <span>Hodimlar</span>
                     </a>
-                </li>   
+                </li>
                 <li class="sidebar-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-box-seam"></i> <span>Maxsulotlar</span>
