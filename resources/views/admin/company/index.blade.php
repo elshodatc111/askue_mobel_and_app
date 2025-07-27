@@ -64,7 +64,7 @@
                                     @forelse ($res as $item)
                                         <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            <td><a href="">{{ $item['company_name'] }}</a></td>
+                                            <td style="text-align: left"><a href="">{{ $item['company_name'] }}</a></td>
                                             <td>{{ $item['start'] }}</td>
                                             <td>{{ $item['count_order'] }}</td>
                                             <td>{{ $item['active_order'] }}(pedding)</td>

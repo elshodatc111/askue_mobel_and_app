@@ -18,7 +18,13 @@ class AuthApiController extends Controller{
         $phone = $request->phone;
         $user = User::where('phone', $phone)->first();
         if (!$user) {
-            return response()->json(['error' => "Avval ro'yxatdan o'ting."], 404);
+            $user = User::create([
+                'company_id' => 1,
+                'name' => 'name',
+                'position' => 'user',
+                'phone' => $phone,
+                'status' => 'pending',
+            ]);
         }
         $throttleKey = 'login:' . $phone;
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
@@ -32,33 +38,10 @@ class AuthApiController extends Controller{
         $this->sendMessage($phone, $code);
         return response()->json([
             'phone' => $phone,
-            'message' => $user->getMaskedPhone() . ' raqamga tasdiqlash kodi yuborildi.'
+            'message' => ($user->getMaskedPhone() ?? $phone) . ' raqamga tasdiqlash kodi yuborildi.'.$code,
         ]);
     }
 
-    public function register(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|size:16',
-        ]);
-        if (User::where('phone', $request->phone)->exists()) {
-            return response()->json(['error' => "Bu raqam bilan ro'yxatdan o'tilgan."], 409);
-        }
-        $code = rand(100000, 999999);
-        $user = User::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'position' => 'user',
-            'code' => Hash::make($code),
-            'code_expires_at' => now()->addMinutes(5),
-            'status' => 'phone',
-        ]);
-        $this->sendMessage($request->phone, $code);
-        return response()->json([
-            'phone' => $user->phone,
-            'message' => "Siz ro'yxatdan o'tdingiz. " . $user->getMaskedPhone() . ' raqamga tasdiqlash kodi yuborildi.'
-        ]);
-    }
 
     public function verify(Request $request){
         $request->validate([
@@ -81,7 +64,7 @@ class AuthApiController extends Controller{
         $user->code = null;
         $user->code_expires_at = null;
         if ($user->isPhoneVerification()) {
-            $user->status = 'pending';
+            $user->status = 'active';
         } elseif (!$user->isActive()) {
             $user->status = 'active';
         }

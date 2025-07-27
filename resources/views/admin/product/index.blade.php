@@ -47,7 +47,7 @@
                             </button>
                         </div>
                         <div class="table-responsive mt-2">
-                            <table class="table table-bordered text-center table-sm table-hover">
+                            <table class="table table-bordered text-center table-hover">
                                 <thead>
                                     <tr class="table-primary">
                                         <th>1</th>
@@ -61,10 +61,16 @@
                                     @forelse ($res as $item)
                                         <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            <td>{{ $item['company_name'] }}</td>
+                                            <td style="text-align:left">{{ $item['company_name'] }}</td>
                                             <td>{{ $item['name'] }}</td>
                                             <td>{{ number_format($item['price'], 0, '.', ' ') }}</td>
-                                            <td><form action="" method="post"><button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button></form></td>
+                                            <td>
+                                                <form action="" method="post">
+                                                    <button type="submit" class="btn btn-danger p-1">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
